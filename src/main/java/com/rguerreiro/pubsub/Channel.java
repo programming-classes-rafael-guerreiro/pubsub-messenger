@@ -5,12 +5,28 @@ import static java.util.Collections.unmodifiableSet;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.rguerreiro.pubsub.observer.EnterChannel;
+import com.rguerreiro.pubsub.observer.Messenger;
+
 public class Channel {
 	private final String name;
 	private final Set<String> participants = new HashSet<>();
 
 	public Channel(String name) {
 		this.name = name;
+
+		Messenger.getInstance().subscribe(EnterChannel.class, (message) -> {
+			enterChannel(message.getParticipantName());
+		});
+		
+		
+		Messenger.getInstance().subscribe("enter_channel" + name, () -> {
+			enterChannel("Rafael");
+		});
+
+		Messenger.getInstance().subscribe("leave_channel" + name, () -> {
+			leaveChannel("Rafael");
+		});
 	}
 
 	@Override

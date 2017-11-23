@@ -1,9 +1,10 @@
 package com.rguerreiro.pubsub.command.parser;
 
 import com.rguerreiro.pubsub.Channel;
+import com.rguerreiro.pubsub.observer.Messenger;
 
 public class CommandQuitParser implements CommandParser {
 	public void run(Channel channel) {
-		System.exit(0);
+		Messenger.getInstance().publish("quit");
 	}
 }
